@@ -2,6 +2,8 @@
 // Create require function 
 // https://nodejs.org/docs/latest-v18.x/api/module.html#modulecreaterequirefilename
 import { createRequire } from 'node:module';
+import { rps, rpsls } from './lib/rpsls.js'
+
 const require = createRequire(import.meta.url);
 // The above two lines allow us to use ES methods and CJS methods for loading
 // dependencies.
@@ -101,4 +103,49 @@ process.on('SIGINT', () => {
             console.info('\n' + stoppedlog)
         }    
     })
+})
+
+app.get('/app/', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.status(200).send("200 OK")
+})
+
+app.get('/app/rps', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(JSON.stringify(rps()))
+})
+
+app.get('/app/rpsls', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(JSON.stringify(rpsls()))
+})
+
+app.get('/app/rps/play', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(JSON.stringify(rps(req.query.shot)))
+})
+
+app.get('/app/rpsls/play', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(JSON.stringify(rpsls(req.query.shot)))
+})
+
+app.post('/app/rps/play', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(JSON.stringify(rps(req.body.shot)))
+})
+
+app.post('/app/rpsls/play', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(JSON.stringify(rpsls(req.body.shot)))
+})
+
+app.get('/app/rps/play/:shot', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(JSON.stringify(rps(req.params.shot)))
+})
+
+app.get('/app/rpsls/play/:shot', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(JSON.stringify(rpsls(req.params.shot)))
 })
